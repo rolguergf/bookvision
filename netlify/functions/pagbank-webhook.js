@@ -1,4 +1,5 @@
 // netlify/functions/pagbank-webhook.js
+import { getStore } from "@netlify/blobs";
 
 export async function handler(event) {
   // Apenas POST é permitido
@@ -68,15 +69,13 @@ export async function handler(event) {
       // Guarda que este email pagou, para quando ele se cadastrar
       if (status === "PAID" || status === "paid" || status === "APPROVED" || status === "approved") {
         try {
-          await fetch(`${process.env.URL}/.netlify/blobs/payments-pending/${encodeURIComponent(email)}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-              email,
-              status,
-              timestamp: Date.now(),
-              paid: true
-            })
-          });
+          const store = getStore("payments-pending");
+          await store.set(email, JSON.stringify({
+            email,
+            status,
+            timestamp: Date.now(),
+            paid: true
+          }));
           console.log(`Pagamento de ${email} armazenado para atribuição futura`);
         } catch (err) {
           console.error("Erro ao armazenar pagamento pendente:", err);
