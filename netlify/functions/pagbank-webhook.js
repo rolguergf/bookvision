@@ -63,10 +63,30 @@ export async function handler(event) {
     // Usuário não existe no Identity
     if (!users || users.length === 0) {
       console.log(`Usuário com email ${email} não encontrado no Identity`);
+      
+      // 🆕 ARMAZENAR PAGAMENTO PENDENTE
+      // Guarda que este email pagou, para quando ele se cadastrar
+      if (status === "PAID" || status === "paid" || status === "APPROVED" || status === "approved") {
+        try {
+          await fetch(`${process.env.URL}/.netlify/blobs/payments-pending/${encodeURIComponent(email)}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+              email,
+              status,
+              timestamp: Date.now(),
+              paid: true
+            })
+          });
+          console.log(`Pagamento de ${email} armazenado para atribuição futura`);
+        } catch (err) {
+          console.error("Erro ao armazenar pagamento pendente:", err);
+        }
+      }
+      
       return {
         statusCode: 200,
         body: JSON.stringify({ 
-          message: "Usuário não existe no Identity, nada a fazer",
+          message: "Usuário não existe ainda. Pagamento registrado para atribuição futura.",
           email: email
         })
       };
