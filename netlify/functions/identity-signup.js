@@ -1,6 +1,7 @@
 // netlify/functions/identity-signup.js
+import { getStore } from "@netlify/blobs";
 
-export async function handler(event) {
+export async function handler(event, context) {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405 };
   }
@@ -33,16 +34,15 @@ export async function handler(event) {
     // 🔍 VERIFICAR SE ESTE EMAIL JÁ PAGOU ANTES
     let paymentData;
     try {
-      const response = await fetch(
-        `${process.env.URL}/.netlify/blobs/payments-pending/${encodeURIComponent(email)}`
-      );
+      const store = getStore("payments-pending");
+      const data = await store.get(email);
       
-      if (response.ok) {
-        paymentData = await response.json();
+      if (data) {
+        paymentData = JSON.parse(data);
         console.log(`Pagamento pendente encontrado para ${email}:`, paymentData);
       }
     } catch (err) {
-      console.log("Nenhum pagamento pendente encontrado");
+      console.log("Nenhum pagamento pendente encontrado:", err.message);
       return {
         statusCode: 200,
         body: JSON.stringify({ message: "Sem pagamento pendente" })
@@ -114,10 +114,8 @@ export async function handler(event) {
 
     // 🗑️ REMOVER PAGAMENTO PENDENTE (já foi processado)
     try {
-      await fetch(
-        `${process.env.URL}/.netlify/blobs/payments-pending/${encodeURIComponent(email)}`,
-        { method: 'DELETE' }
-      );
+      const store = getStore("payments-pending");
+      await store.delete(email);
       console.log(`Pagamento pendente de ${email} removido`);
     } catch (err) {
       console.error("Erro ao remover pagamento pendente:", err);
