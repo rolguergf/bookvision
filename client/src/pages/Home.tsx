@@ -553,37 +553,7 @@ export default function Home() {
           <h2 className="text-4xl font-bold mb-6">O mercado não se move por acaso.</h2>
           <p className="text-xl text-slate-300 mb-8">
             Veja a liquidez antes do preço e opere com a mesma leitura usada por players institucionais.
-          </p>
-
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="seu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-              required
-            />
-            <Button 
-              type="submit"
-              className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 px-6 py-3 h-auto"
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Enviando...
-                </span>
-                ) : (
-                  'Garantir minha vaga'
-                )
-              }
-            </Button>
-          </form>
-
-          {submitted && (
-            <p className="mt-4 text-cyan-400 font-medium">✓ Email registrado com sucesso!</p>
-          )}
-
+          </p>       
         </div>
       </section>
 
