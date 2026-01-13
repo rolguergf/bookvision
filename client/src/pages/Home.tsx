@@ -207,35 +207,14 @@ export default function Home() {
             Veja onde o institucional usa o varejo como liquidez — antes do candle fechar.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="seu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-              required
-            />
-            <Button 
-              type="submit"
-              className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 px-6 py-3 h-auto"
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Enviando...
-                </span>
-                ) : (
-                  'Ver a manipulação de mercado'
-                )
-              }
-            </Button>
-          </form>
-
-          {submitted && (
-            <p className="mt-4 text-cyan-400 font-medium">✓ Email registrado com sucesso!</p>
-          )}
-
+          <Button 
+            className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 px-8 py-3 h-auto text-lg font-semibold"
+            asChild
+          >
+            <a href="#pricing">
+              Ver a manipulação de mercado
+            </a>
+          </Button>
         </div>
       </section>
 
