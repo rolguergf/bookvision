@@ -525,7 +525,7 @@ export default function Home() {
                   Acesso Antecipado
                 </CardTitle>
                 <CardDescription className="text-slate-300">
-                  Vagas limitadas para os primeiros 100 usuários
+                  Acesso liberado até 20/01/2026.
                 </CardDescription>
                 <div className="mt-4">
                   <span className="text-4xl font-bold text-white">R$ 97</span>
@@ -554,7 +554,10 @@ export default function Home() {
                   className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700"
                   asChild
                 >
-                  <a href="#cta">
+                  <a href="https://buy.stripe.com/00wbJ183T4IedNn2wh4AU00"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                  >
                     Quero ser Trader de Elite
                   </a>
                 </Button>
