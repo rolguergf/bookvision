@@ -531,14 +531,19 @@ export default function Home() {
 
                 <Button 
                   className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700"
-                  asChild
+                  onClick={() => {
+                    // PRIMEIRO: Abre o link de pagamento (prioridade = venda)
+                    window.open('https://buy.stripe.com/00wbJ183T4IedNn2wh4AU00', '_blank');
+                    
+                    // DEPOIS: Dispara evento de conversão do Google Ads
+                    if (typeof window !== 'undefined' && (window as any).gtag) {
+                      (window as any).gtag('event', 'conversion', {
+                        'send_to': 'AW-17858495642/GgmaCO-k3d4bEJqJzMNC'
+                      });
+                    }
+                  }}
                 >
-                  <a href="https://buy.stripe.com/00wbJ183T4IedNn2wh4AU00"
-                     target="_blank"
-                     rel="noopener noreferrer"
-                  >
-                    Quero ser Trader de Elite
-                  </a>
+                  Quero ser Trader de Elite
                 </Button>
               </CardContent>
             </Card>
