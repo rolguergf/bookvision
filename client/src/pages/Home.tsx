@@ -174,7 +174,7 @@ export default function Home() {
                 className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white border-0 px-8"
                 asChild
               >
-                <a href="#cta1">
+                <a href="#pricing">
                   Quero acesso ao BookVision <ChevronRight className="ml-2 w-4 h-4" />
                 </a>
               </Button>
