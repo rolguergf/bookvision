@@ -445,7 +445,7 @@ export default function Home() {
                   className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700"
                   onClick={() => {
                     // PRIMEIRO: Abre o link de pagamento (prioridade = venda)
-                    window.open('https://buy.stripe.com/00wbJ183T4IedNn2wh4AU00', '_blank');
+                    window.open('https://buy.stripe.com/8x200j6ZP8Yu24F5It4AU01', '_blank');
                     
                     // DEPOIS: Dispara evento de conversão do Google Ads
                     if (typeof window !== 'undefined' && (window as any).gtag) {
