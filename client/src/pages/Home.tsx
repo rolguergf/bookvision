@@ -405,10 +405,10 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
 
             {/* Acesso Essencial */}
-            <Card className="relative bg-slate-900/30 border-slate-800 opacity-60">
+            <Card className="relative bg-gradient-to-b from-cyan-500/20 to-blue-600/20 border-cyan-500/50 shadow-lg shadow-cyan-500/20">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                <span className="bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-1 rounded-full">
-                  EM BREVE
+                <span className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white text-xs font-bold px-4 py-1 rounded-full">
+                  DISPONÍVEL AGORA
                 </span>
               </div>
 
@@ -416,12 +416,12 @@ export default function Home() {
                 <CardTitle className="text-white text-2xl">
                   Acesso Essencial
                 </CardTitle>
-                <CardDescription className="text-slate-400">
+                <CardDescription className="text-slate-300">
                   Para quem quer sair do óbvio
                 </CardDescription>
                 <div className="mt-4">
                   <span className="text-4xl font-bold text-white">R$ 147</span>
-                  <span className="text-slate-400 ml-2">/mês</span>
+                  <span className="text-slate-300 ml-2">/mês</span>
                 </div>
               </CardHeader>
 
@@ -429,20 +429,33 @@ export default function Home() {
                 <ul className="space-y-3 mb-8">
                   {[
                     "Acesso às transmissões ao vivo do BookVision",
-                    "Leitura institucional do Bitcoin (BitMEX)",
+                    "Leitura institucional do Bitcoin",
                     "Mapa de liquidez e agressão em tempo real",
-                    "Acesso ao Discord (somente leitura)",
+                    "Acesso à Sala Ao Vivo (somente leitura)",
                     "Evoluções contínuas da ferramenta"
                   ].map((item, i) => (
-                    <li key={i} className="flex gap-2 text-slate-300 text-sm">
+                    <li key={i} className="flex gap-2 text-slate-200 text-sm">
                       <Check className="w-4 h-4 text-cyan-400 mt-0.5" />
                       {item}
                     </li>
                   ))}
                 </ul>
 
-                <Button disabled className="w-full bg-slate-800 cursor-not-allowed">
-                  Indisponível
+                <Button 
+                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700"
+                  onClick={() => {
+                    // PRIMEIRO: Abre o link de pagamento (prioridade = venda)
+                    window.open('https://buy.stripe.com/00wbJ183T4IedNn2wh4AU00', '_blank');
+                    
+                    // DEPOIS: Dispara evento de conversão do Google Ads
+                    if (typeof window !== 'undefined' && (window as any).gtag) {
+                      (window as any).gtag('event', 'conversion', {
+                        'send_to': 'AW-17858495642/GgmaCO-k3d4bEJqJzMNC'
+                      });
+                    }
+                  }}
+                >
+                  Quero ser Trader de Elite
                 </Button>
               </CardContent>
             </Card>
@@ -492,10 +505,10 @@ export default function Home() {
             </Card>
 
             {/* Acesso Fundadores */}
-            <Card className="relative bg-gradient-to-b from-cyan-500/20 to-blue-600/20 border-cyan-500/50 shadow-lg shadow-cyan-500/20">
+            <Card className="relative bg-slate-900/30 border-slate-800 opacity-60">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                <span className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white text-xs font-bold px-4 py-1 rounded-full">
-                  EARLY ACCESS
+                <span className="bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-1 rounded-full">
+                  ENCERRADO
                 </span>
               </div>
 
@@ -504,7 +517,7 @@ export default function Home() {
                   Acesso Antecipado
                 </CardTitle>
                 <CardDescription className="text-slate-300">
-                  Acesso liberado até 20/01/2026.
+                  Encerrado em 20/01/2026.
                 </CardDescription>
                 <div className="mt-4">
                   <span className="text-4xl font-bold text-white">R$ 97</span>
@@ -529,21 +542,8 @@ export default function Home() {
                   ))}
                 </ul>
 
-                <Button 
-                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700"
-                  onClick={() => {
-                    // PRIMEIRO: Abre o link de pagamento (prioridade = venda)
-                    window.open('https://buy.stripe.com/00wbJ183T4IedNn2wh4AU00', '_blank');
-                    
-                    // DEPOIS: Dispara evento de conversão do Google Ads
-                    if (typeof window !== 'undefined' && (window as any).gtag) {
-                      (window as any).gtag('event', 'conversion', {
-                        'send_to': 'AW-17858495642/GgmaCO-k3d4bEJqJzMNC'
-                      });
-                    }
-                  }}
-                >
-                  Quero ser Trader de Elite
+                <Button disabled className="w-full bg-slate-800 cursor-not-allowed">
+                  Indisponível
                 </Button>
               </CardContent>
             </Card>
