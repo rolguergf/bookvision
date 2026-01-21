@@ -431,7 +431,7 @@ export default function Home() {
                     "Acesso às transmissões ao vivo do BookVision",
                     "Leitura institucional do Bitcoin",
                     "Mapa de liquidez e agressão em tempo real",
-                    "Acesso à Sala Ao Vivo (somente leitura)",
+                    "Sinais de absorções institucionais",
                     "Evoluções contínuas da ferramenta"
                   ].map((item, i) => (
                     <li key={i} className="flex gap-2 text-slate-200 text-sm">
