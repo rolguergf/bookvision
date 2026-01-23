@@ -281,7 +281,7 @@ export default function Home() {
           <div className="relative rounded-2xl overflow-hidden border border-slate-700 bg-slate-900/50 backdrop-blur">
             <div className="aspect-video">
               <iframe
-                src="https://www.youtube.com/embed/VJiG-xbXvmU?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&modestbranding=1&playlist=EhuKzfDk0rE&rel=0"
+                src="https://www.youtube.com/embed/VJiG-xbXvmU?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&modestbranding=1&playlist=VJiG-xbXvmU&rel=0"
                 className="w-full h-full rounded-2xl"
                 allow="autoplay; encrypted-media"
                 allowFullScreen
