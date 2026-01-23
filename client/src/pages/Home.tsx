@@ -269,6 +269,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CTA Section */}
+      <section id="cta2" className="py-20 px-4 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 border-t border-slate-700">
+        <div className="container max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-6">Veja o que o candle não mostra!</h2>
+          <p className="text-xl text-slate-300 mb-8">
+            Compare a leitura tradicional de preço com a leitura de fluxo do BookVision e entenda onde o mercado realmente está sendo decidido.
+          </p>
+
+          {/* Hero Video */}
+          <div className="relative rounded-2xl overflow-hidden border border-slate-700 bg-slate-900/50 backdrop-blur">
+            <div className="aspect-video">
+              <iframe
+                src="https://www.youtube.com/embed/VJiG-xbXvmU?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&modestbranding=1&playlist=EhuKzfDk0rE&rel=0"
+                className="w-full h-full rounded-2xl"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+              />
+            </div>
+          </div>
+          
+          <Button 
+            className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 px-8 py-3 h-auto text-lg font-semibold"
+            asChild
+          >
+            <a href="#pricing">
+              Veja como funciona na prática
+            </a>
+          </Button>
+        </div>
+      </section>
+      
       {/* Features */}
       <section id="features" className="py-20 px-4">
         <div className="container max-w-5xl mx-auto">
