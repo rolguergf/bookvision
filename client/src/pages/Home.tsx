@@ -287,16 +287,7 @@ export default function Home() {
                 allowFullScreen
               />
             </div>
-          </div>
-          
-          <Button 
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 px-8 py-3 h-auto text-lg font-semibold"
-            asChild
-          >
-            <a href="#pricing">
-              Veja como funciona na prática
-            </a>
-          </Button>
+          </div>    
         </div>
       </section>
       
