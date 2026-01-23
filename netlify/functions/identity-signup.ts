@@ -29,20 +29,22 @@ const handler: Handler = async (event, context) => {
   try {
     const { user } = JSON.parse(event.body);
     const userEmail = user.email;
-
+    
     console.log('📝 Novo cadastro:', userEmail);
 
-    // Verifica se o usuário tem assinatura ativa no Stripe
-    const hasActiveSubscription = await checkStripeSubscription(userEmail);
+    // Verifica se o usuário tem assinatura ativa no Stripe (incluindo trial)
+    const subscriptionInfo = await checkStripeSubscription(userEmail);
 
-    if (hasActiveSubscription) {
-      console.log('✅ Assinatura ativa encontrada para', userEmail);
+    if (subscriptionInfo.hasSubscription) {
+      console.log(`✅ Assinatura encontrada para ${userEmail} - Status: ${subscriptionInfo.status}`);
       
       return {
         statusCode: 200,
         body: JSON.stringify({
           app_metadata: {
-            roles: ['Assinante']
+            roles: ['Assinante'],
+            subscription_status: subscriptionInfo.status,
+            is_trial: subscriptionInfo.isTrial
           }
         })
       };
@@ -53,7 +55,7 @@ const handler: Handler = async (event, context) => {
         statusCode: 200,
         body: JSON.stringify({
           app_metadata: {
-            roles: [] // Sem role até pagar
+            roles: [] // Sem role até iniciar assinatura
           }
         })
       };
@@ -72,8 +74,12 @@ const handler: Handler = async (event, context) => {
   }
 };
 
-// Verifica se o email tem assinatura ativa no Stripe
-async function checkStripeSubscription(email: string): Promise<boolean> {
+// Verifica se o email tem assinatura ativa no Stripe (incluindo trial)
+async function checkStripeSubscription(email: string): Promise<{
+  hasSubscription: boolean;
+  status?: string;
+  isTrial?: boolean;
+}> {
   try {
     console.log('🔍 Buscando customer no Stripe:', email);
     
@@ -85,26 +91,47 @@ async function checkStripeSubscription(email: string): Promise<boolean> {
 
     if (customers.data.length === 0) {
       console.log('❌ Nenhum customer encontrado');
-      return false;
+      return { hasSubscription: false };
     }
 
     const customerId = customers.data[0].id;
     console.log('✅ Customer encontrado:', customerId);
 
-    // Busca assinaturas ativas desse customer
+    // Busca TODAS as assinaturas desse customer
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
-      status: 'active',
       limit: 1
     });
 
-    const hasActive = subscriptions.data.length > 0;
-    console.log(hasActive ? '✅ Assinatura ativa encontrada' : '❌ Nenhuma assinatura ativa');
-    
-    return hasActive;
+    if (subscriptions.data.length === 0) {
+      console.log('❌ Nenhuma assinatura encontrada');
+      return { hasSubscription: false };
+    }
+
+    const subscription = subscriptions.data[0];
+    const status = subscription.status;
+
+    // Status válidos para ter acesso:
+    // - 'trialing': período de teste gratuito
+    // - 'active': assinatura paga ativa
+    const validStatuses = ['trialing', 'active'];
+    const hasValidSubscription = validStatuses.includes(status);
+
+    if (hasValidSubscription) {
+      console.log(`✅ Assinatura válida - Status: ${status}`);
+      return {
+        hasSubscription: true,
+        status: status,
+        isTrial: status === 'trialing'
+      };
+    } else {
+      console.log(`⚠️ Assinatura com status inválido: ${status}`);
+      return { hasSubscription: false };
+    }
+
   } catch (error: any) {
     console.error('❌ Erro ao verificar no Stripe:', error.message);
-    return false;
+    return { hasSubscription: false };
   }
 }
 
