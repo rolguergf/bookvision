@@ -394,7 +394,7 @@ export default function LivePage() {
               <h1 className="text-3xl font-bold mb-4 text-cyan-400">BookVision Live</h1>
               <div className="flex-1 rounded-xl border border-slate-800 overflow-hidden shadow-2xl shadow-cyan-500/10 bg-slate-900">
                 <iframe
-                  src="https://www.youtube.com/embed/fX_kWvTMHFY" 
+                  src="https://www.youtube.com/embed/I18KgDROKyI" 
                   className="w-full h-full"
                   allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -690,4 +690,5 @@ export default function LivePage() {
       )}
     </div>
   );
+
 }
