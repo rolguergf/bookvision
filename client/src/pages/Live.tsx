@@ -39,6 +39,7 @@ export default function LivePage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
+  const [liveVideoId, setLiveVideoId] = useState("XYZ123ABC"); 
 
   // Trades
   const [trades, setTrades] = useState<Trade[]>([]);
@@ -394,12 +395,25 @@ export default function LivePage() {
               <h1 className="text-3xl font-bold mb-4 text-cyan-400">BookVision Live</h1>
               <div className="flex-1 rounded-xl border border-slate-800 overflow-hidden shadow-2xl shadow-cyan-500/10 bg-slate-900">
                 <iframe
-                  src="https://www.youtube.com/embed/live_stream?channel=UC_nFs7l4fQUY7Y3-bF46WTQ" 
+                  src={`https://www.youtube.com/embed/${liveVideoId}`} 
                   className="w-full h-full"
                   allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
               </div>
+              {/* Logo após o iframe, antes do "Voltar para Home" */}
+              {user?.email === "rolguer@rogautomacao.net" && (
+                <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-cyan-500/30">
+                  <label className="block text-xs text-slate-400 mb-2">🔧 Admin: Atualizar ID da Live</label>
+                  <input
+                    type="text"
+                    value={liveVideoId}
+                    onChange={(e) => setLiveVideoId(e.target.value)}
+                    placeholder="Cole o ID do vídeo (ex: XYZ123ABC)"
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white text-sm"
+                  />
+                </div>
+              )}
               <div className="mt-4 text-center">
                 <a href="/" className="text-slate-400 hover:text-white transition">← Voltar para Home</a>
               </div>
@@ -692,4 +706,5 @@ export default function LivePage() {
   );
 
 }
+
 
