@@ -39,8 +39,6 @@ export default function LivePage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
-  const [liveVideoId, setLiveVideoId] = useState(""); 
-  const [isLoadingLive, setIsLoadingLive] = useState(true);
 
   // Trades
   const [trades, setTrades] = useState<Trade[]>([]);
@@ -180,39 +178,6 @@ export default function LivePage() {
       loadTrades();
     }
   }, [authorized]);
-
-  // useEffect para carregar o ID da live do storage:
-  useEffect(() => {
-    const loadLiveId = async () => {
-      try {
-        const result = await storageHelper.get('current-live-id', true); // true = compartilhado
-        if (result) {
-          setLiveVideoId(result.value);
-        }
-      } catch (error) {
-        console.log('Nenhuma live configurada');
-      } finally {
-        setIsLoadingLive(false);
-      }
-    };
-  
-    if (authorized) {
-      loadLiveId();
-      // Atualiza a cada 10 segundos para pegar mudanças
-      const interval = setInterval(loadLiveId, 10000);
-      return () => clearInterval(interval);
-    }
-  }, [authorized]);
-  
-  // Função para salvar o ID:
-  const handleUpdateLiveId = async (newId: string) => {
-    try {
-      await storageHelper.set('current-live-id', newId, true); // true = compartilhado
-      setLiveVideoId(newId);
-    } catch (error) {
-      console.error('Erro ao atualizar ID da live:', error);
-    }
-  };
   
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -426,68 +391,29 @@ export default function LivePage() {
           {/* Video Section - Modo Teatro */}
           <div className="flex-1 px-4">
             <div className="h-full flex flex-col">
-              <h1 className="text-3xl font-bold mb-4 text-cyan-400">BookVision Live</h1>
+              <h1 className="text-3xl font-bold mb-4 text-cyan-400">
+                BookVision Live
+              </h1>
+          
               <div className="flex-1 rounded-xl border border-slate-800 overflow-hidden shadow-2xl shadow-cyan-500/10 bg-slate-900">
-              {isLoadingLive ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
-                </div>
-              ) : liveVideoId ? (
+          
                 <iframe
-                  src={`https://www.youtube.com/embed/${liveVideoId}`} 
+                  src="https://www.youtube.com/embed/live_stream?channel=UC_nFs7l4fQUY7Y3-bF46WTQ"
                   className="w-full h-full"
-                  allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="autoplay; encrypted-media; picture-in-picture"
                   allowFullScreen
                 />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
-                    <div className="text-center p-8">
-                      <div className="w-20 h-20 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg className="w-10 h-10 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <h3 className="text-2xl font-bold text-white mb-3">Nenhuma Live Ativa</h3>
-                      <p className="text-slate-400">A transmissão ao vivo começará em breve.</p>
-                    </div>
-                  </div>
-                )}
+          
               </div>
-              
-              {/* Painel Admin - Logo após fechar a div do iframe */}
-              {user?.email === "rolguer@rogautomacao.net" && (
-                <div className="mt-4 p-4 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-lg">
-                  <h3 className="text-sm font-bold text-cyan-400 mb-2 flex items-center gap-2">
-                    🔧 Painel Admin
-                  </h3>
-                  <label className="block text-xs text-slate-400 mb-2">
-                    ID da Live Atual: {liveVideoId || "Nenhuma"}
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      defaultValue={liveVideoId}
-                      onBlur={(e) => handleUpdateLiveId(e.target.value)}
-                      placeholder="Cole o ID do YouTube (ex: XYZ123ABC)"
-                      className="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded text-white text-sm"
-                    />
-                    <button
-                      onClick={() => handleUpdateLiveId("")}
-                      className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded text-sm transition"
-                    >
-                      Limpar
-                    </button>
-                  </div>
-                  <p className="text-xs text-slate-500 mt-2">
-                    💡 Cole apenas o ID (ex: dQw4w9WgXcQ). Todos os assinantes verão automaticamente.
-                  </p>
-                </div>
-              )}
+          
               <div className="mt-4 text-center">
-                <a href="/" className="text-slate-400 hover:text-white transition">← Voltar para Home</a>
+                <a href="/" className="text-slate-400 hover:text-white transition">
+                  ← Voltar para Home
+                </a>
               </div>
             </div>
           </div>
+
 
           {/* Chat Section - Lateral Direita */}
           <div className="w-full lg:w-96 pr-4">
@@ -775,6 +701,7 @@ export default function LivePage() {
   );
 
 }
+
 
 
 
