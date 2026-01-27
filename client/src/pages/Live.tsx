@@ -398,7 +398,7 @@ export default function LivePage() {
               <div className="flex-1 rounded-xl border border-slate-800 overflow-hidden shadow-2xl shadow-cyan-500/10 bg-slate-900">
           
                 <iframe
-                  src="https://www.youtube.com/embed/live_stream?channel=UC_nFs7l4fQUY7Y3-bF46WTQ"
+                  src="https://www.youtube.com/embed/Lx9rmSHl9qw"
                   className="w-full h-full"
                   allow="autoplay; encrypted-media; picture-in-picture"
                   allowFullScreen
@@ -701,6 +701,7 @@ export default function LivePage() {
   );
 
 }
+
 
 
 
