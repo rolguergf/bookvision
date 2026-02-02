@@ -101,7 +101,7 @@ export default function Home() {
               onClick={() => user ? window.netlifyIdentity.logout() : window.netlifyIdentity.open('login')} 
               className="text-sm text-slate-300 hover:text-white transition bg-transparent border-none p-0 cursor-pointer"
             >
-              {user ? 'Sair' : 'Login'}
+              {user ? 'Sair' : 'Login/Cadastro'}
             </button>
       
             <div className="flex items-center gap-4 ml-4 pl-4 border-l border-slate-700">
