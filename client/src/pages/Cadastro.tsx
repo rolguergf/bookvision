@@ -54,7 +54,7 @@ export default function Cadastro() {
     setError("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -78,9 +78,24 @@ export default function Cadastro() {
       return;
     }
 
-    // Abre modal do Netlify Identity com signup
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.open('signup');
+    // Cria conta direto via API do Netlify Identity
+    try {
+      if (window.netlifyIdentity) {
+        await window.netlifyIdentity.signup({
+          email: formData.email,
+          password: formData.password,
+          user_metadata: {
+            full_name: formData.fullName
+          }
+        });
+        
+        setSuccess(true);
+        setTimeout(() => {
+          window.location.href = '/live';
+        }, 2000);
+      }
+    } catch (err: any) {
+      setError(err.message || 'Erro ao criar conta. Tente novamente.');
       setLoading(false);
     }
   };
