@@ -78,23 +78,67 @@ export default function Cadastro() {
       return;
     }
 
-    // Cria conta direto via API do Netlify Identity
+    // Cria conta via API REST do Netlify Identity
     try {
-      if (window.netlifyIdentity) {
-        await window.netlifyIdentity.signup({
+      const siteUrl = window.location.origin;
+      const response = await fetch(`${siteUrl}/.netlify/identity/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           email: formData.email,
           password: formData.password,
-          user_metadata: {
+          data: {
             full_name: formData.fullName
           }
-        });
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.msg || error.error_description || 'Erro ao criar conta');
+      }
+
+      const data = await response.json();
+      
+      // Login automático após criar conta
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.close();
         
-        setSuccess(true);
-        setTimeout(() => {
-          window.location.href = '/live';
-        }, 2000);
+        // Realiza login
+        const loginResponse = await fetch(`${siteUrl}/.netlify/identity/token`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            grant_type: 'password'
+          })
+        });
+
+        if (loginResponse.ok) {
+          const loginData = await loginResponse.json();
+          // Define o token no Netlify Identity
+          window.netlifyIdentity.store.user = loginData;
+          
+          setSuccess(true);
+          setTimeout(() => {
+            window.location.href = '/live';
+          }, 2000);
+        } else {
+          // Se o login automático falhar, mostra mensagem para fazer login manualmente
+          setSuccess(true);
+          setError("Conta criada! Por favor, faça login.");
+          setTimeout(() => {
+            window.netlifyIdentity.open('login');
+          }, 2000);
+        }
       }
     } catch (err: any) {
+      console.error('Erro no cadastro:', err);
       setError(err.message || 'Erro ao criar conta. Tente novamente.');
       setLoading(false);
     }
