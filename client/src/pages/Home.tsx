@@ -262,7 +262,7 @@ export default function Home() {
             </h1>
 
             <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-              BookVision é a primeira plataforma brasileira de Order Flow de nível institucional. Desenvolvida por um trader profissional que entende o mercado.
+              Plataforma de análise de fluxo inspirada em orderflow institucional, transmitindo zonas de absorção diretamente do book em tempo real.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -272,7 +272,7 @@ export default function Home() {
                 asChild
               >
                 <a href="#pricing">
-                  Quero acesso ao BookVision <ChevronRight className="ml-2 w-4 h-4" />
+                  Testar grátis por 7 dias <ChevronRight className="ml-2 w-4 h-4" />
                 </a>
               </Button>
             </div>
@@ -309,7 +309,7 @@ export default function Home() {
             asChild
           >
             <a href="#pricing">
-              Ver a manipulação de mercado
+              Testar grátis por 7 dias
             </a>
           </Button>
         </div>
