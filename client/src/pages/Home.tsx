@@ -574,7 +574,7 @@ export default function Home() {
                     }
                   }}
                 >
-                  Quero ser Trader de Elite
+                  Iniciar Teste Gratuito
                 </Button>
                 <p className="text-xs text-slate-400 text-center mt-3 leading-relaxed">
                   7 dias de acesso gratuito para avaliação.  
