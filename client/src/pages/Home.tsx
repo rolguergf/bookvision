@@ -170,6 +170,14 @@ export default function Home() {
                 </span>
                 Assistir Ao Vivo
               </a>
+
+              <a 
+                href="/educacao" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-sm text-slate-300 hover:text-white transition py-2"
+              >
+                Educação
+              </a>
               
               <a 
                 href="#features" 
