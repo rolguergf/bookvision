@@ -21,6 +21,14 @@ interface VideoAula {
 }
 
 export default function Educacao() {
+  // ========================================
+  // CONTROLE DE ACESSO - MUDE AQUI
+  // ========================================
+  // true = APENAS ASSINANTES (conteúdo pago)
+  // false = LIBERADO PARA TODOS (conteúdo grátis)
+  const REQUER_ASSINATURA = false; // ← MUDE AQUI!
+  // ========================================
+
   const [authorized, setAuthorized] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [checking, setChecking] = useState(true);
@@ -31,52 +39,12 @@ export default function Educacao() {
   const videoAulas: VideoAula[] = [
     {
       id: 1,
-      titulo: "Aula 01 - Introdução ao Order Flow",
-      descricao: "Entenda os conceitos fundamentais de Order Flow e como ler o fluxo de ordens no mercado.",
-      duracao: "15:30",
-      youtubeId: "SEU_VIDEO_ID_AQUI", // Substitua pelo ID real do vídeo
-      thumbnail: `https://img.youtube.com/vi/SEU_VIDEO_ID_AQUI/maxresdefault.jpg`,
+      titulo: "Aula 01 - BookVision como tomada de decisão",
+      descricao: "Setup profissional de entrada com BookVision - Como utilizo o BookVision na tomada de decisão.",
+      duracao: "22:30",
+      youtubeId: "1ACpKdXiepg", // Substitua pelo ID real do vídeo
+      thumbnail: `https://img.youtube.com/vi/1ACpKdXiepg/maxresdefault.jpg`,
       liberado: true,
-      concluido: false
-    },
-    {
-      id: 2,
-      titulo: "Aula 02 - Leitura de Liquidez",
-      descricao: "Aprenda a identificar zonas de liquidez e como o preço reage a elas.",
-      duracao: "20:15",
-      youtubeId: "VIDEO_ID_2",
-      thumbnail: `https://img.youtube.com/vi/VIDEO_ID_2/maxresdefault.jpg`,
-      liberado: true,
-      concluido: false
-    },
-    {
-      id: 3,
-      titulo: "Aula 03 - Absorções Institucionais",
-      descricao: "Como identificar absorções e defesas de preço em tempo real.",
-      duracao: "18:45",
-      youtubeId: "VIDEO_ID_3",
-      thumbnail: `https://img.youtube.com/vi/VIDEO_ID_3/maxresdefault.jpg`,
-      liberado: true,
-      concluido: false
-    },
-    {
-      id: 4,
-      titulo: "Aula 04 - Desequilíbrios de Mercado",
-      descricao: "Identificando desequilíbrios antes dos grandes movimentos.",
-      duracao: "22:00",
-      youtubeId: "VIDEO_ID_4",
-      thumbnail: `https://img.youtube.com/vi/VIDEO_ID_4/maxresdefault.jpg`,
-      liberado: false,
-      concluido: false
-    },
-    {
-      id: 5,
-      titulo: "Aula 05 - Estratégias Avançadas",
-      descricao: "Combinando Order Flow com Price Action para setups de alta probabilidade.",
-      duracao: "25:30",
-      youtubeId: "VIDEO_ID_5",
-      thumbnail: `https://img.youtube.com/vi/VIDEO_ID_5/maxresdefault.jpg`,
-      liberado: false,
       concluido: false
     }
   ];
@@ -91,6 +59,22 @@ export default function Educacao() {
 
         const currentUser = window.netlifyIdentity?.currentUser();
         
+        // Se não requer assinatura, libera para todos
+        if (!REQUER_ASSINATURA) {
+          setAuthorized(true);
+          setUser(currentUser || { email: 'visitante' });
+          
+          // Carrega progresso salvo
+          const progresso = localStorage.getItem('bookvision-progresso');
+          if (progresso) {
+            setVideosAssistidos(JSON.parse(progresso));
+          }
+          
+          setChecking(false);
+          return;
+        }
+        
+        // Se requer assinatura, verifica se é assinante
         if (currentUser?.app_metadata?.roles?.includes("Assinante")) {
           setAuthorized(true);
           setUser(currentUser);
@@ -107,9 +91,16 @@ export default function Educacao() {
         }
       } catch (error) {
         console.error('Erro ao verificar autenticação:', error);
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 3000);
+        
+        // Se não requer assinatura, libera mesmo com erro
+        if (!REQUER_ASSINATURA) {
+          setAuthorized(true);
+          setUser({ email: 'visitante' });
+        } else {
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 3000);
+        }
       } finally {
         setChecking(false);
       }
@@ -123,7 +114,7 @@ export default function Educacao() {
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [REQUER_ASSINATURA]);
 
   // Seleciona primeiro vídeo liberado ao carregar
   useEffect(() => {
@@ -200,12 +191,21 @@ export default function Educacao() {
             <a href="/educacao" className="text-sm text-cyan-400 font-bold">
               Educação
             </a>
-            <button 
-              onClick={() => window.netlifyIdentity.logout()} 
-              className="text-sm text-slate-300 hover:text-white transition"
-            >
-              Sair
-            </button>
+            {user && user.email !== 'visitante' ? (
+              <button 
+                onClick={() => window.netlifyIdentity.logout()} 
+                className="text-sm text-slate-300 hover:text-white transition"
+              >
+                Sair
+              </button>
+            ) : (
+              <button 
+                onClick={() => window.netlifyIdentity.open('login')} 
+                className="text-sm text-slate-300 hover:text-white transition"
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
       </nav>
