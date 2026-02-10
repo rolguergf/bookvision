@@ -332,6 +332,7 @@ export default function LivePage() {
               Assistir Ao Vivo
             </a>
 
+            <a href="/educacao" className="text-sm text-slate-300 hover:text-white transition">Educação</a>
             <a href="/#features" className="text-sm text-slate-300 hover:text-white transition">Funcionalidades</a>
             <a href="/#pricing" className="text-sm text-slate-300 hover:text-white transition">Planos</a>
             <a href="/#faq" className="text-sm text-slate-300 hover:text-white transition">FAQ</a>
@@ -701,6 +702,7 @@ export default function LivePage() {
   );
 
 }
+
 
 
 
