@@ -191,6 +191,11 @@ export default function Educacao() {
             <a href="/educacao" className="text-sm text-cyan-400 font-bold">
               Educação
             </a>
+            
+            <a href="/#features" className="text-sm text-slate-300 hover:text-white transition">Funcionalidades</a>
+            <a href="/#pricing" className="text-sm text-slate-300 hover:text-white transition">Planos</a>
+            <a href="/#faq" className="text-sm text-slate-300 hover:text-white transition">FAQ</a>
+            
             {user && user.email !== 'visitante' ? (
               <button 
                 onClick={() => window.netlifyIdentity.logout()} 
